@@ -5,52 +5,128 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VidDown PRO</title>
 <style>
-  body { margin: 0; font-family: Arial, sans-serif; background: #0b0f1a; color: white; padding-bottom: 30px; }
-  header { background: linear-gradient(45deg, #6c63ff, #00e5ff); padding: 20px; text-align: center; font-size: 22px; font-weight: bold; }
+  body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #0f121d; color: white; padding-bottom: 20px; }
+  
+  /* Barre de recherche du haut */
+  header { background: #161b2e; padding: 15px; display: flex; gap: 10px; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+  .search-bar { flex: 1; display: flex; background: #202742; border-radius: 25px; padding: 5px 15px; align-items: center; }
+  .search-bar input { flex: 1; background: none; border: none; padding: 8px; color: white; outline: none; font-size: 14px; }
+  .btn-search { background: #6c63ff; border: none; color: white; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+
   .container { padding: 15px; }
-  input { width: 100%; padding: 12px; border-radius: 10px; border: none; outline: none; margin-bottom: 10px; box-sizing: border-box; background: #151a2e; color: white; }
-  button { width: 100%; padding: 12px; border: none; border-radius: 10px; background: #6c63ff; color: white; font-weight: bold; cursor: pointer; }
-  .card { background: #151a2e; margin: 20px 0; padding: 20px; border-radius: 12px; display: none; text-align: center; }
-  .row { display: flex; gap: 10px; margin-top: 15px; }
-  .btn-dl { flex: 1; padding: 12px; border: none; border-radius: 10px; color: white; font-weight: bold; text-decoration: none; text-align: center; }
-  .music { background: #ff9800; }
-  .video { background: #03a9f4; }
-  .status { margin-bottom: 10px; font-size: 14px; color: #b0b3c6; }
+
+  /* Grille des raccourcis réseaux sociaux */
+  h3 { margin: 15px 5px 10px 5px; font-size: 16px; color: #b0b3c6; font-weight: 500; }
+  .grid-apps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+  .app-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: white; font-size: 12px; }
+  .app-icon { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-bottom: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+  
+  /* Couleurs des icônes */
+  .yt { background: #ff0000; }
+  .wa { background: #25d366; }
+  .fb { background: #1877f2; }
+  .tt { background: #000000; border: 1px solid #333; }
+
+  /* Zone des résultats et téléchargement */
+  .card { background: #161b2e; padding: 20px; border-radius: 15px; display: none; text-align: center; margin-top: 15px; border: 1px solid #252d4a; }
+  .status { margin-bottom: 12px; font-size: 14px; color: #00e5ff; font-weight: bold; }
+  .row { display: flex; gap: 10px; }
+  .btn-dl { flex: 1; padding: 12px; border-radius: 10px; color: white; font-weight: bold; text-decoration: none; text-align: center; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+  .music { background: linear-gradient(45deg, #ff9800, #ff5722); }
+  .video { background: linear-gradient(45deg, #00ebff, #0072ff); }
+
+  /* Suggestions de vidéos (style fil d'actualité) */
+  .feed { margin-top: 20px; }
+  .video-card { background: #161b2e; border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+  .thumbnail { width: 100%; height: 180px; background: #202742; display: flex; align-items: center; justify-content: center; color: #4e5d8c; font-size: 40px; position: relative; }
+  .play-btn { position: absolute; background: rgba(108, 99, 255, 0.9); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
+  .video-info { padding: 12px; }
+  .video-title { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #f0f2f5; }
+  .video-author { font-size: 12px; color: #a0a5c1; }
 </style>
 </head>
 <body>
 
-<header>VidDown PRO</header>
+<header>
+  <div class="search-bar">
+    <input type="text" id="urlInput" placeholder="Rechercher ou entrer une URL...">
+  </div>
+  <button class="btn-search" onclick="traiterRecherche()">Aller</button>
+</header>
 
 <div class="container">
-  <input type="text" id="url" placeholder="Colle ton lien ici...">
-  <button onclick="analyserLien()">Analyser le lien</button>
+  
+  <h3>Sites Favoris</h3>
+  <div class="grid-apps">
+    <a href="#" class="app-item" onclick="ouvrirReseau('https://www.youtube.com')">
+      <div class="app-icon yt">YT</div>
+      <span>YouTube</span>
+    </a>
+    <a href="#" class="app-item" onclick="ouvrirReseau('https://www.whatsapp.com')">
+      <div class="app-icon wa">WA</div>
+      <span>WhatsApp</span>
+    </a>
+    <a href="#" class="app-item" onclick="ouvrirReseau('https://www.facebook.com')">
+      <div class="app-icon fb">FB</div>
+      <span>Facebook</span>
+    </a>
+    <a href="#" class="app-item" onclick="ouvrirReseau('https://www.tiktok.com')">
+      <div class="app-icon tt">TK</div>
+      <span>TikTok</span>
+    </a>
+  </div>
 
-  <div class="card" id="resultCard">
-    <div class="status" id="statusTxt">Lien prêt ! Choisissez votre format :</div>
+  <div class="card" id="downloadCard">
+    <div class="status" id="statusTxt">Vidéo détectée ! Choisissez le format :</div>
     <div class="row">
       <a id="btnAudio" class="btn-dl music" href="#" target="_blank">Télécharger MP3</a>
       <a id="btnVideo" class="btn-dl video" href="#" target="_blank">Télécharger MP4</a>
     </div>
   </div>
+
+  <h3>Vidéos Populaires</h3>
+  <div class="feed">
+    <div class="video-card">
+      <div class="thumbnail"><div class="play-btn">▶</div></div>
+      <div class="video-info">
+        <div class="video-title">Nouveau Clip Officiel 2026 (Exclusivité)</div>
+        <div class="video-author">Chaîne Musique • 2,5 M de vues</div>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="thumbnail"><div class="play-btn">▶</div></div>
+      <div class="video-info">
+        <div class="video-title">Film d'Action Complet en Français HD</div>
+        <div class="video-author">Cinéma Box • 898 k vues</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-function analyserLien() {
-  let url = document.getElementById("url").value.trim();
-  if(!url) {
-    alert("Veuillez coller un lien d'abord !");
-    return;
-  }
+// Fonction qui s'active quand on colle un lien ou fait une recherche
+function traiterRecherche() {
+  let saisie = document.getElementById("urlInput").value.trim();
+  if(!saisie) return;
 
-  // Utilisation d'un service alternatif stable (y2mate) qui gère le téléchargement proprement
-  let cleanUrl = encodeURIComponent(url);
+  // Si c'est un vrai lien vidéo, on active directement les boutons de téléchargement stables
+  if(saisie.includes("youtu.be") || saisie.includes("youtube.com")) {
+    let idVideo = extractVideoId(saisie);
+    if(idVideo) {
+      document.getElementById("btnAudio").href = "https://www.y2mate.com/fr/youtube/" + idVideo;
+      document.getElementById("btnVideo").href = "https://www.y2mate.com/fr/youtube/" + idVideo;
+      document.getElementById("downloadCard").style.display = "block";
+      return;
+    }
+  }
   
-  // Ces liens redirigent vers une plateforme de conversion en ligne ultra-stable
-  document.getElementById("btnAudio").href = "https://www.y2mate.com/fr/youtube/" + extractVideoId(url);
-  document.getElementById("btnVideo").href = "https://www.y2mate.com/fr/youtube/" + extractVideoId(url);
-  
-  document.getElementById("resultCard").style.display = "block";
+  // Sinon, on simule une recherche en ouvrant Google ou YouTube
+  window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(saisie), "_blank");
+}
+
+function ouvrirReseau(url) {
+  window.open(url, "_blank");
 }
 
 function extractVideoId(url) {
