@@ -43,14 +43,20 @@ function analyserLien() {
     return;
   }
 
-  // Connexion au serveur de conversion automatique en ligne
-  let apiAudio = "https://api.vevioz.com/api/button/mp3?url=" + encodeURIComponent(url);
-  let apiVideo = "https://api.vevioz.com/api/button/videos?url=" + encodeURIComponent(url);
-
-  document.getElementById("btnAudio").href = apiAudio;
-  document.getElementById("btnVideo").href = apiVideo;
+  // Utilisation d'un service alternatif stable (y2mate) qui gère le téléchargement proprement
+  let cleanUrl = encodeURIComponent(url);
+  
+  // Ces liens redirigent vers une plateforme de conversion en ligne ultra-stable
+  document.getElementById("btnAudio").href = "https://www.y2mate.com/fr/youtube/" + extractVideoId(url);
+  document.getElementById("btnVideo").href = "https://www.y2mate.com/fr/youtube/" + extractVideoId(url);
   
   document.getElementById("resultCard").style.display = "block";
+}
+
+function extractVideoId(url) {
+  let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  let match = url.match(regExp);
+  return (match && match[2].length == 11) ? match[2] : "";
 }
 </script>
 
