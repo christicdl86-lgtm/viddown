@@ -1,128 +1,119 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VidDown PRO</title>
-<style>
-  body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #0f121d; color: white; padding-bottom: 20px; }
-  
-  /* Barre de recherche du haut */
-  header { background: #161b2e; padding: 15px; display: flex; gap: 10px; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-  .search-bar { flex: 1; display: flex; background: #202742; border-radius: 25px; padding: 5px 15px; align-items: center; }
-  .search-bar input { flex: 1; background: none; border: none; padding: 8px; color: white; outline: none; font-size: 14px; }
-  .btn-search { background: #6c63ff; border: none; color: white; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+<HTML langue="fr">
+<tête>
+  <méta jeu de caractères="UTF-8">
+  <méta nom="fenêtre d'affichage" contenu="largeur=largeur de l'appareil, échelle=1.0">
+  <titre>VidDown PRO</titre>
+  <style>
+    corps{marge: 0;famille de polices: 'Segoe UI',Arial,sans empattement;arrière-plan: #161b2e;}
 
-  .container { padding: 15px; }
+    /* Barre de recherche du haut */
+    en-tête{arrière-plan: #161b2e;rembourrage: 15px;afficher:fléchir;écart: 10px;}
+    .barre de recherche{fléchir: 1;afficher:fléchir;arrière-plan: #202742;rayon de bordure: 8px;}
+    .barre de recherche saisir{fléchir: 1;arrière-plan:aucun;frontière:aucun;rembourrage: 10px;couleur:blanc;}
+    .recherche par bouton{arrière-plan: #6c63ff;frontière:aucun;couleur:blanc;rembourrage: 10px 15px;rayon de bordure: 0 8px 8px 0;}
 
-  /* Grille des raccourcis réseaux sociaux */
-  h3 { margin: 15px 5px 10px 5px; font-size: 16px; color: #b0b3c6; font-weight: 500; }
-  .grid-apps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
-  .app-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: white; font-size: 12px; }
-  .app-icon { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-bottom: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-  
-  /* Couleurs des icônes */
-  .yt { background: #ff0000; }
-  .wa { background: #25d366; }
-  .fb { background: #1877f2; }
-  .tt { background: #000000; border: 1px solid #333; }
+    .récipient{rembourrage: 15px;}
 
-  /* Zone des résultats et téléchargement */
-  .card { background: #161b2e; padding: 20px; border-radius: 15px; display: none; text-align: center; margin-top: 15px; border: 1px solid #252d4a; }
-  .status { margin-bottom: 12px; font-size: 14px; color: #00e5ff; font-weight: bold; }
-  .row { display: flex; gap: 10px; }
-  .btn-dl { flex: 1; padding: 12px; border-radius: 10px; color: white; font-weight: bold; text-decoration: none; text-align: center; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-  .music { background: linear-gradient(45deg, #ff9800, #ff5722); }
-  .video { background: linear-gradient(45deg, #00ebff, #0072ff); }
+    /* Grille des raccourcis réseaux sociaux */
+    h3{marge: 15px 5px 10px 5px;taille de police: 16px;couleur: #b0b3c6;police-weight: bold;}
+    .applications de grille{afficher:grille;colonnes du modèle de grille: répéter(4, 1fr);écart: 15px;}
+    .élément d'application{afficher:fléchir;direction flexible:colonne;aligner les éléments: centre;curseur: pointeur;}
+    .icône d'application{largeur: 55px;hauteur: 55px;rayon de bordure: 50%;afficher: fléchir;aligner les éléments: centre;justifier le contenu: centre;taille de police: 24px;couleur: blanc;boîte-ombre: 0 4px 6px rgba(0,0,0,0.1);}
 
-  /* Suggestions de vidéos (style fil d'actualité) */
-  .feed { margin-top: 20px; }
-  .video-card { background: #161b2e; border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
-  .thumbnail { width: 100%; height: 180px; background: #202742; display: flex; align-items: center; justify-content: center; color: #4e5d8c; font-size: 40px; position: relative; }
-  .play-btn { position: absolute; background: rgba(108, 99, 255, 0.9); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
-  .video-info { padding: 12px; }
-  .video-title { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #f0f2f5; }
-  .video-author { font-size: 12px; color: #a0a5c1; }
-</style>
-</head>
-<body>
+    /* Couleurs des icônes */
+    .yt{arrière-plan: #ff0000; }
+    .Washington{arrière-plan: #25d366; }
+    .Facebook{arrière-plan: #1877f2; }
+    .tt{arrière-plan: #000000;frontière: 1pxsolide#333; }
 
-<header>
-  <div class="search-bar">
-    <input type="text" id="urlInput" placeholder="Rechercher ou entrer une URL...">
-  </div>
-  <button class="btn-search" onclick="traiterRecherche()">Aller</button>
-</header>
+    /* Zone des résultats et téléchargement */
+    .carte{arrière-plan: #161b2e;rembourrage: 20px;rayon de bordure: 15px;afficher: aucune;boîte-ombre: 0 10px 25px rgba(0,0,0,0.3);marge-inférieure: 20px;frontière: 1px solide #2d385e;}
+    .statut{marge inférieure: 12px;taille de police: 14px;couleur: #00e5ff;police-weight: bold;texte-aligner: centre;}
+    .rangée{afficher:fléchir;écart: 10px; }
+    .bouton-dl{fléchir: 1;rembourrage: 12px;rayon de bordure: 10px;couleur:blanc;frontière:aucun;police-weight:bold;curseur:pointeur;afficher:fléchir;aligner-éléments:centre;justifier-contenu:centre;écart:8px;taille-police:14px;transition: transformation 0.2s;}
+    .musique{arrière-plan: gradient linéaire(45deg, #ff9800, #ff5722); }
+    .vidéo{arrière-plan: gradient linéaire(45deg, #00ebff, #0072ff); }
 
-<div class="container">
-  
-  <h3>Sites Favoris</h3>
-  <div class="grid-apps">
-    <a href="#" class="app-item" onclick="ouvrirReseau('https://www.youtube.com')">
-      <div class="app-icon yt">YT</div>
-      <span>YouTube</span>
-    </a>
-    <a href="#" class="app-item" onclick="ouvrirReseau('https://www.whatsapp.com')">
-      <div class="app-icon wa">WA</div>
-      <span>WhatsApp</span>
-    </a>
-    <a href="#" class="app-item" onclick="ouvrirReseau('https://www.facebook.com')">
-      <div class="app-icon fb">FB</div>
-      <span>Facebook</span>
-    </a>
-    <a href="#" class="app-item" onclick="ouvrirReseau('https://www.tiktok.com')">
-      <div class="app-icon tt">TK</div>
-      <span>TikTok</span>
-    </a>
-  </div>
+    /* Suggestions de vidéos (style fil d'actualité) */
+    .alimentation{marge supérieure: 20px; }
+    .carte vidéo{arrière-plan: #161b2e;rayon de bordure: 12px;marge inférieure: 15px;débordement: caché;boîte-ombre: 0 4px 8px rgba(0,0,0,0.2);frontière: 1px solide #202742;}
+    .vignette{largeur: 100%;hauteur: 180px;arrière-plan: #202742;afficher:fléchir;aligner-éléments:centre;justifier-contenu:centre;position: relative;}
+    .bouton de lecture{position: absolu;arrière-plan: rgba(108, 99, 255, 0.9);largeur: 50px;hauteur: 50px;rayon de bordure: 50%;afficher:fléchir;aligner-éléments:centre;justifier-contenu:centre;couleur:blanc;taille-police:20px;}
+    .infos vidéo{rembourrage: 12px; }
+    .titre de la vidéo{taille de police: 14px;police-weight:audacieux;marge inférieure: 4px;couleur: blanc;}
+    .auteur vidéo{taille de police: 12px;couleur: #a0a5c1; }
+  </style>
+</tête>
+<corps>
 
-  <div class="card" id="downloadCard">
-    <div class="status" id="statusTxt">Vidéo détectée ! Choisissez le format :</div>
-    <div class="row">
-      <a id="btnAudio" class="btn-dl music" href="#" target="_blank">Télécharger MP3</a>
-      <a id="btnVideo" class="btn-dl video" href="#" target="_blank">Télécharger MP4</a>
+  <div class="en-tête">
+    <div class="barre de recherche">
+      <input type="text" id="urlInput" placeholder="Collez le lien de la vidéo ici...">
     </div>
+    <button class="recherche par bouton" onclick="traiterRecherche()">Rechercher</button>
   </div>
 
-  <h3>Vidéos Populaires</h3>
-  <div class="feed">
-    <div class="video-card">
-      <div class="thumbnail"><div class="play-btn">▶</div></div>
-      <div class="video-info">
-        <div class="video-title">Nouveau Clip Officiel 2026 (Exclusivité)</div>
-        <div class="video-author">Chaîne Musique • 2,5 M de vues</div>
+  <div class="récipient">
+    <h3>Raccourcis</h3>
+    <div class="applications de grille">
+      <div class="élément d'application" onclick="ouvrirReseau('https://www.youtube.com')">
+        <div class="icône d'application yt">YT</div>
+      </div>
+      <div class="élément d'application" onclick="ouvrirReseau('https://www.facebook.com')">
+        <div class="icône d'application Facebook">FB</div>
+      </div>
+      <div class="élément d'application" onclick="ouvrirReseau('https://www.tiktok.com')">
+        <div class="icône d'application tt">TT</div>
       </div>
     </div>
-    <div class="video-card">
-      <div class="thumbnail"><div class="play-btn">▶</div></div>
-      <div class="video-info">
-        <div class="video-title">Film d'Action Complet en Français HD</div>
-        <div class="video-author">Cinéma Box • 898 k vues</div>
+
+    <div class="carte" id="downloadCard">
+      <div class="statut" id="statusText">Vidéo détectée ! Prêt au téléchargement</div>
+      <div class="rangée">
+        <a id="btnAudio" href="#" target="_blank" class="bouton-dl musique">Télécharger MP3</a>
+        <a id="btnVideo" href="#" target="_blank" class="bouton-dl vidéo">Télécharger MP4</a>
+      </div>
+    </div>
+
+    <h3>Vidéos Populaires</h3>
+    <div class="alimentation">
+      <div class="carte vidéo">
+        <div class="vignette">
+          <div class="bouton de lecture">▶</div>
+        </div>
+        <div class="infos vidéo">
+          <div class="titre de la vidéo">Nouveau Clip Officiel 2026 (Exclusivité)</div>
+          <div class="auteur vidéo">Chaîne Musique • 2,5 M de vues</div>
+        </div>
+      </div>
+      <div class="carte vidéo">
+        <div class="vignette">
+          <div class="bouton de lecture">▶</div>
+        </div>
+        <div class="infos vidéo">
+          <div class="titre de la vidéo">Film d'Action Complet en Français HD</div>
+          <div class="auteur vidéo">Cinéma Box • 898 k vues</div>
+        </div>
       </div>
     </div>
   </div>
-
-</div>
 
 <script>
-// Fonction qui s'active quand on colle un lien ou fait une recherche
 function traiterRecherche() {
   let saisie = document.getElementById("urlInput").value.trim();
   if(!saisie) return;
 
-  // Si c'est un vrai lien vidéo, on active directement les boutons de téléchargement stables
   if(saisie.includes("youtu.be") || saisie.includes("youtube.com")) {
     let idVideo = extractVideoId(saisie);
     if(idVideo) {
-      document.getElementById("btnAudio").href = "https://www.y2mate.com/fr/youtube/" + idVideo;
+      document.getElementById("btnAudio").href = "https://www.y2mate.com/fr/youtube-mp3/" + idVideo;
       document.getElementById("btnVideo").href = "https://www.y2mate.com/fr/youtube/" + idVideo;
       document.getElementById("downloadCard").style.display = "block";
       return;
     }
   }
-  
-  // Sinon, on simule une recherche en ouvrant Google ou YouTube
-  window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(saisie), "_blank");
+  window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(saisie));
 }
 
 function ouvrirReseau(url) {
@@ -136,5 +127,24 @@ function extractVideoId(url) {
 }
 </script>
 
-</body>
-</html>
+<script>
+  const injectStyles = () => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      ytd-masthead, 
+      #header-bar, 
+      .header-barrier, 
+      yt-header-renderer, 
+      #yt-masthead-container { 
+        display: none !important; 
+      }
+    `;
+    document.head.appendChild(style);
+  };
+
+  window.addEventListener('DOMContentLoaded', injectStyles);
+  window.addEventListener('load', injectStyles);
+</script>
+
+</corps>
+  </HTML>
