@@ -1,150 +1,432 @@
 <!DOCTYPE html>
-<HTML langue="fr">
-<tête>
-  <méta jeu de caractères="UTF-8">
-  <méta nom="fenêtre d'affichage" contenu="largeur=largeur de l'appareil, échelle=1.0">
-  <titre>VidDown PRO</titre>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VidDown</title>
   <style>
-    corps{marge: 0;famille de polices: 'Segoe UI',Arial,sans empattement;arrière-plan: #161b2e;}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* Barre de recherche du haut */
-    en-tête{arrière-plan: #161b2e;rembourrage: 15px;afficher:fléchir;écart: 10px;}
-    .barre de recherche{fléchir: 1;afficher:fléchir;arrière-plan: #202742;rayon de bordure: 8px;}
-    .barre de recherche saisir{fléchir: 1;arrière-plan:aucun;frontière:aucun;rembourrage: 10px;couleur:blanc;}
-    .recherche par bouton{arrière-plan: #6c63ff;frontière:aucun;couleur:blanc;rembourrage: 10px 15px;rayon de bordure: 0 8px 8px 0;}
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: #0f0f0f;
+      color: white;
+    }
 
-    .récipient{rembourrage: 15px;}
+    /* HEADER style YouTube */
+    header {
+      background: #0f0f0f;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #272727;
+    }
 
-    /* Grille des raccourcis réseaux sociaux */
-    h3{marge: 15px 5px 10px 5px;taille de police: 16px;couleur: #b0b3c6;police-weight: bold;}
-    .applications de grille{afficher:grille;colonnes du modèle de grille: répéter(4, 1fr);écart: 15px;}
-    .élément d'application{afficher:fléchir;direction flexible:colonne;aligner les éléments: centre;curseur: pointeur;}
-    .icône d'application{largeur: 55px;hauteur: 55px;rayon de bordure: 50%;afficher: fléchir;aligner les éléments: centre;justifier le contenu: centre;taille de police: 24px;couleur: blanc;boîte-ombre: 0 4px 6px rgba(0,0,0,0.1);}
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+    }
 
-    /* Couleurs des icônes */
-    .yt{arrière-plan: #ff0000; }
-    .Washington{arrière-plan: #25d366; }
-    .Facebook{arrière-plan: #1877f2; }
-    .tt{arrière-plan: #000000;frontière: 1pxsolide#333; }
+    .logo-icon {
+      background: #ff0000;
+      width: 34px;
+      height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: white;
+    }
 
-    /* Zone des résultats et téléchargement */
-    .carte{arrière-plan: #161b2e;rembourrage: 20px;rayon de bordure: 15px;afficher: aucune;boîte-ombre: 0 10px 25px rgba(0,0,0,0.3);marge-inférieure: 20px;frontière: 1px solide #2d385e;}
-    .statut{marge inférieure: 12px;taille de police: 14px;couleur: #00e5ff;police-weight: bold;texte-aligner: centre;}
-    .rangée{afficher:fléchir;écart: 10px; }
-    .bouton-dl{fléchir: 1;rembourrage: 12px;rayon de bordure: 10px;couleur:blanc;frontière:aucun;police-weight:bold;curseur:pointeur;afficher:fléchir;aligner-éléments:centre;justifier-contenu:centre;écart:8px;taille-police:14px;transition: transformation 0.2s;}
-    .musique{arrière-plan: gradient linéaire(45deg, #ff9800, #ff5722); }
-    .vidéo{arrière-plan: gradient linéaire(45deg, #00ebff, #0072ff); }
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.5px;
+    }
 
-    /* Suggestions de vidéos (style fil d'actualité) */
-    .alimentation{marge supérieure: 20px; }
-    .carte vidéo{arrière-plan: #161b2e;rayon de bordure: 12px;marge inférieure: 15px;débordement: caché;boîte-ombre: 0 4px 8px rgba(0,0,0,0.2);frontière: 1px solide #202742;}
-    .vignette{largeur: 100%;hauteur: 180px;arrière-plan: #202742;afficher:fléchir;aligner-éléments:centre;justifier-contenu:centre;position: relative;}
-    .bouton de lecture{position: absolu;arrière-plan: rgba(108, 99, 255, 0.9);largeur: 50px;hauteur: 50px;rayon de bordure: 50%;afficher:fléchir;aligner-éléments:centre;justifier-contenu:centre;couleur:blanc;taille-police:20px;}
-    .infos vidéo{rembourrage: 12px; }
-    .titre de la vidéo{taille de police: 14px;police-weight:audacieux;marge inférieure: 4px;couleur: blanc;}
-    .auteur vidéo{taille de police: 12px;couleur: #a0a5c1; }
+    .logo-text span { color: #ff0000; }
+
+    .search-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      display: flex;
+      border: 1px solid #303030;
+      border-radius: 40px;
+      overflow: hidden;
+    }
+
+    .search-box input {
+      flex: 1;
+      background: #121212;
+      border: none;
+      outline: none;
+      padding: 8px 16px;
+      color: white;
+      font-size: 15px;
+    }
+
+    .search-box input::placeholder { color: #aaa; }
+
+    .search-btn {
+      background: #222;
+      border: none;
+      border-left: 1px solid #303030;
+      color: white;
+      padding: 8px 18px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* CHIPS style YouTube */
+    .chips {
+      padding: 10px 12px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      border-bottom: 1px solid #272727;
+      scrollbar-width: none;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+
+    .chip {
+      background: #272727;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .chip.active { background: white; color: black; }
+    .chip:hover { background: #3d3d3d; }
+    .chip.active:hover { background: #ddd; color: black; }
+
+    /* RESULT CARD */
+    .result-card {
+      margin: 12px;
+      background: #1a1a1a;
+      border: 1px solid #ff000055;
+      border-radius: 12px;
+      padding: 16px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(-8px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .result-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .dot { width:8px; height:8px; border-radius:50%; background:#ff0000; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .result-label { font-size: 13px; font-weight: 600; color: #aaa; }
+    .platform-tag {
+      margin-left: auto;
+      background: #ff0000;
+      font-size: 11px;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+    }
+
+    .dl-row { display: flex; gap: 10px; }
+
+    .dl-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+    .dl-btn:hover { opacity: 0.85; }
+    .btn-mp3 { background: linear-gradient(135deg, #ff6b35, #f7c948); }
+    .btn-mp4 { background: linear-gradient(135deg, #ff0000, #cc0000); }
+
+    /* ERROR */
+    .error-card {
+      margin: 12px;
+      background: #1a1a1a;
+      border: 1px solid #ff4d4d44;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: none;
+      color: #ff6b6b;
+      font-size: 14px;
+    }
+
+    /* VIDEO GRID style YouTube */
+    .grid {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .video-card {
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .thumbnail {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #272727;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .thumb-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    }
+
+    .play-btn {
+      position: relative;
+      width: 44px; height: 44px;
+      background: rgba(255,0,0,0.85);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    .duration {
+      position: absolute;
+      bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.8);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .video-meta {
+      display: flex;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #ff0000;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700;
+    }
+
+    .video-info { flex: 1; }
+    .video-title { font-size: 14px; font-weight: 500; line-height: 1.4; margin-bottom: 4px; }
+    .video-sub { font-size: 12px; color: #aaa; }
   </style>
-</tête>
-<corps>
+</head>
+<body>
 
-  <div class="en-tête">
-    <div class="barre de recherche">
-      <input type="text" id="urlInput" placeholder="Collez le lien de la vidéo ici...">
-    </div>
-    <button class="recherche par bouton" onclick="traiterRecherche()">Rechercher</button>
+<header>
+  <div class="logo">
+    <div class="logo-icon">▶</div>
+    <div class="logo-text">Vid<span>Down</span></div>
   </div>
-
-  <div class="récipient">
-    <h3>Raccourcis</h3>
-    <div class="applications de grille">
-      <div class="élément d'application" onclick="ouvrirReseau('https://www.youtube.com')">
-        <div class="icône d'application yt">YT</div>
-      </div>
-      <div class="élément d'application" onclick="ouvrirReseau('https://www.facebook.com')">
-        <div class="icône d'application Facebook">FB</div>
-      </div>
-      <div class="élément d'application" onclick="ouvrirReseau('https://www.tiktok.com')">
-        <div class="icône d'application tt">TT</div>
-      </div>
-    </div>
-
-    <div class="carte" id="downloadCard">
-      <div class="statut" id="statusText">Vidéo détectée ! Prêt au téléchargement</div>
-      <div class="rangée">
-        <a id="btnAudio" href="#" target="_blank" class="bouton-dl musique">Télécharger MP3</a>
-        <a id="btnVideo" href="#" target="_blank" class="bouton-dl vidéo">Télécharger MP4</a>
-      </div>
-    </div>
-
-    <h3>Vidéos Populaires</h3>
-    <div class="alimentation">
-      <div class="carte vidéo">
-        <div class="vignette">
-          <div class="bouton de lecture">▶</div>
-        </div>
-        <div class="infos vidéo">
-          <div class="titre de la vidéo">Nouveau Clip Officiel 2026 (Exclusivité)</div>
-          <div class="auteur vidéo">Chaîne Musique • 2,5 M de vues</div>
-        </div>
-      </div>
-      <div class="carte vidéo">
-        <div class="vignette">
-          <div class="bouton de lecture">▶</div>
-        </div>
-        <div class="infos vidéo">
-          <div class="titre de la vidéo">Film d'Action Complet en Français HD</div>
-          <div class="auteur vidéo">Cinéma Box • 898 k vues</div>
-        </div>
-      </div>
+  <div class="search-wrap">
+    <div class="search-box">
+      <input type="text" id="urlInput" placeholder="Lien ou recherche..." autocomplete="off">
+      <button class="search-btn" onclick="handleSearch()">🔍</button>
     </div>
   </div>
+</header>
+
+<!-- Chips catégories -->
+<div class="chips">
+  <div class="chip active">Tout</div>
+  <div class="chip">Musique</div>
+  <div class="chip">Films</div>
+  <div class="chip">Sport</div>
+  <div class="chip">Gaming</div>
+  <div class="chip">Actu</div>
+  <div class="chip">TikTok</div>
+  <div class="chip">Instagram</div>
+</div>
+
+<!-- Résultat téléchargement -->
+<div class="result-card" id="resultCard">
+  <div class="result-top">
+    <div class="dot"></div>
+    <span class="result-label">Prêt à télécharger</span>
+    <span class="platform-tag" id="platformTag">YouTube</span>
+  </div>
+  <div class="dl-row">
+    <a id="btnMp3" href="#" target="_blank" class="dl-btn btn-mp3">🎵 MP3</a>
+    <a id="btnMp4" href="#" target="_blank" class="dl-btn btn-mp4">🎬 MP4</a>
+  </div>
+</div>
+
+<div class="error-card" id="errorCard">
+  ⚠️ Lien non reconnu. Colle un lien YouTube, TikTok, Facebook ou Instagram.
+</div>
+
+<!-- Grille vidéos style YouTube -->
+<div class="grid">
+
+  <div class="video-card">
+    <div class="thumbnail">
+      <div class="thumb-gradient"></div>
+      <div class="play-btn">▶</div>
+      <div class="duration">4:32</div>
+    </div>
+    <div class="video-meta">
+      <div class="avatar">M</div>
+      <div class="video-info">
+        <div class="video-title">Top Hits 2026 – Mix Officiel</div>
+        <div class="video-sub">Musique Charts • 3,1 M vues • il y a 2 jours</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="thumbnail">
+      <div class="thumb-gradient" style="background: linear-gradient(135deg,#1a0000,#3d0000,#660000)"></div>
+      <div class="play-btn">▶</div>
+      <div class="duration">1:47:22</div>
+    </div>
+    <div class="video-meta">
+      <div class="avatar" style="background:#333">C</div>
+      <div class="video-info">
+        <div class="video-title">Film Complet HD – Action 2026</div>
+        <div class="video-sub">CinéBox • 1,2 M vues • il y a 5 jours</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="thumbnail">
+      <div class="thumb-gradient" style="background: linear-gradient(135deg,#001a0d,#003d1a,#006630)"></div>
+      <div class="play-btn">▶</div>
+      <div class="duration">3:18</div>
+    </div>
+    <div class="video-meta">
+      <div class="avatar" style="background:#25d366">R</div>
+      <div class="video-info">
+        <div class="video-title">Clip Exclusif – Nouveau Son du Bled</div>
+        <div class="video-sub">Rai & Rap FR • 890 k vues • il y a 1 semaine</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="thumbnail">
+      <div class="thumb-gradient" style="background: linear-gradient(135deg,#1a1500,#3d3200,#665400)"></div>
+      <div class="play-btn">▶</div>
+      <div class="duration">12:04</div>
+    </div>
+    <div class="video-meta">
+      <div class="avatar" style="background:#f7c948; color:#000">S</div>
+      <div class="video-info">
+        <div class="video-title">Match Complet – Ligue des Champions 2026</div>
+        <div class="video-sub">Sport Live • 5,4 M vues • il y a 3 jours</div>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <script>
-function traiterRecherche() {
-  let saisie = document.getElementById("urlInput").value.trim();
-  if(!saisie) return;
+  // Chips
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
 
-  if(saisie.includes("youtu.be") || saisie.includes("youtube.com")) {
-    let idVideo = extractVideoId(saisie);
-    if(idVideo) {
-      document.getElementById("btnAudio").href = "https://www.y2mate.com/fr/youtube-mp3/" + idVideo;
-      document.getElementById("btnVideo").href = "https://www.y2mate.com/fr/youtube/" + idVideo;
-      document.getElementById("downloadCard").style.display = "block";
+  function detectPlatform(url) {
+    if (url.includes('youtube.com') || url.includes('youtu.be')) return 'YouTube';
+    if (url.includes('tiktok.com')) return 'TikTok';
+    if (url.includes('facebook.com') || url.includes('fb.watch')) return 'Facebook';
+    if (url.includes('instagram.com')) return 'Instagram';
+    return null;
+  }
+
+  function getYtId(url) {
+    const m = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function buildLinks(url, platform) {
+    const enc = encodeURIComponent(url);
+    if (platform === 'YouTube') {
+      const id = getYtId(url);
+      if (!id) return null;
+      return {
+        mp3: `https://www.y2mate.com/fr/youtube-mp3/${id}`,
+        mp4: `https://www.y2mate.com/fr/youtube/${id}`
+      };
+    }
+    return {
+      mp3: `https://snaptik.app/fr?url=${enc}`,
+      mp4: `https://snaptik.app/fr?url=${enc}`
+    };
+  }
+
+  function handleSearch() {
+    const url = document.getElementById('urlInput').value.trim();
+    document.getElementById('resultCard').style.display = 'none';
+    document.getElementById('errorCard').style.display = 'none';
+    if (!url) return;
+
+    const platform = detectPlatform(url);
+    if (!platform) {
+      window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(url), '_blank');
       return;
     }
+
+    const links = buildLinks(url, platform);
+    if (!links) { document.getElementById('errorCard').style.display = 'block'; return; }
+
+    document.getElementById('platformTag').textContent = platform;
+    document.getElementById('btnMp3').href = links.mp3;
+    document.getElementById('btnMp4').href = links.mp4;
+    document.getElementById('resultCard').style.display = 'block';
   }
-  window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(saisie));
-}
 
-function ouvrirReseau(url) {
-  window.open(url, "_blank");
-}
-
-function extractVideoId(url) {
-  let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  let match = url.match(regExp);
-  return (match && match[2].length == 11) ? match[2] : "";
-}
+  document.getElementById('urlInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSearch();
+  });
 </script>
 
-<script>
-  const injectStyles = () => {
-    const style = document.createElement('style');
-    style.innerHTML = `
-      ytd-masthead, 
-      #header-bar, 
-      .header-barrier, 
-      yt-header-renderer, 
-      #yt-masthead-container { 
-        display: none !important; 
-      }
-    `;
-    document.head.appendChild(style);
-  };
-
-  window.addEventListener('DOMContentLoaded', injectStyles);
-  window.addEventListener('load', injectStyles);
-</script>
-
-</corps>
-  </HTML>
+</body>
+  </html>
+                                                                                                        
